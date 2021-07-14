@@ -23,6 +23,14 @@ app.get('/', (req, res, next) => {
 	res.sendFile(absolutePath);
 });
 
+// send a json to a client
+app.get('/json', (req, res, next) => {
+	if (process.env.MESSAGE_STYLE === 'uppercase') {
+		jsonMessage.message = jsonMessage.message.toUpperCase();
+	}
+	res.json(jsonMessage);
+});
+
 // time log middleware, chained middle ware to route
 app.get(
 	'/now',
@@ -36,16 +44,16 @@ app.get(
 );
 
 // params capture example
+// text took place instead of :word will be found in req.params
 app.get('/:word/echo', (req, res) => {
 	res.json({ echo: `${req.params.word}` });
 });
 
-// send a json to a client
-app.get('/json', (req, res, next) => {
-	if (process.env.MESSAGE_STYLE === 'uppercase') {
-		jsonMessage.message = jsonMessage.message.toUpperCase();
-	}
-	res.json(jsonMessage);
+//Query Params input
+//query params format '/name?first=firstname&last=lastname'
+app.get('/name', (req, res) => {
+	const fullName = `${req.query.first} ${req.query.last}`;
+	res.json({ name: fullName });
 });
 
 module.exports = app;
