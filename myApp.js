@@ -1,5 +1,6 @@
-var express = require('express');
-var app = express();
+const bodyParser = require('body-parser');
+const express = require('express');
+const app = express();
 
 let jsonMessage = {
 	message: 'Hello json',
@@ -17,6 +18,11 @@ app.use((req, res, next) => {
 	console.log(simpleLogger(req));
 	next();
 });
+
+//extended is a configuration option that tells body-parser which parsing needs to be used. When extended=false it uses the classic encoding querystring library. When extended=true it uses qs library for parsing.
+//! body-parser is deprecated after Node 4.16.0
+//? body-parser is now shipped with express
+app.use(express.urlencoded({ extended: false }));
 
 // send a view to the client
 app.get('/', (req, res, next) => {
