@@ -62,4 +62,10 @@ app.get('/name', (req, res) => {
 	res.json({ name: fullName });
 });
 
+// After parsing query with express.urlencoded() middleware, information is stored in req.body
+app.post('/name', (req, res) => {
+	const fullName = `${req.body.first} ${req.body.last}`;
+	res.json({ name: fullName });
+});
+
 module.exports = app;
